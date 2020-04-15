@@ -121,7 +121,6 @@ namespace fourier
                     y_old = y + y2 + y3;
                 }
             }
-            // bla test fjdlafd
         }
     }
 }
