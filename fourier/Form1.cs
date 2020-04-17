@@ -40,9 +40,6 @@ namespace fourier
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            double rounds = 5;
-            double frequency = 5;
-
             Graphics g = panel1.CreateGraphics();
             Pen p = new Pen(Color.Black);
 
@@ -50,12 +47,13 @@ namespace fourier
             g.DrawLine(p, c2p(new Complex(-2, 0)), c2p(new Complex(2, 0)));
             g.DrawLine(p, c2p(new Complex(0, -2)), c2p(new Complex(0, 2)));
 
+            double freq = 1.0 / m_periode3;
+
             System.Numerics.Complex c1 = new System.Numerics.Complex(0, 0);
-            double steps = 1000;
-            for (double s = 0; s < rounds*steps; s++)
+            for (double t = 0; t < 50; t += 0.005)
             {
-                Complex c2 = Complex.Exp(-2 * Math.PI * System.Numerics.Complex.ImaginaryOne * (s / steps));
-                c2 = c2 * Math.Sin(frequency * s / steps); 
+                Complex c2 = Complex.Exp(-2 * Math.PI * System.Numerics.Complex.ImaginaryOne * freq * t);
+                c2 = c2 * gg(t) / 6; 
                 g.DrawLine(p, c2p(c1), c2p(c2));
                 c1 = c2;
             }
@@ -68,15 +66,16 @@ namespace fourier
             return new Point((int)(xoffset + factor * x), (int)(yoffset + factor * -y));
         }
 
-        private double m_periode = 2;
+        private double m_periode1 = 2;
         private double m_periode2 = 4;
         private double m_periode3 = 3;
-        private double f(double x)
+        private double m_hoehe = 3;
+        private double gg(double x)
         {
-            y = Math.Sin(2 * Math.PI * x / m_periode * 2);
-            y2 = Math.Sin(2 * Math.PI * x / m_periode2 * 2);
-            y3 = Math.Sin(2 * Math.PI * x / m_periode3 * 2);
-            return y + y2 + y3;
+            double y1 = Math.Sin(2.0 * Math.PI * x / m_periode1);
+            double y2 = Math.Sin(2 * Math.PI * x / m_periode2);
+            double y3 = Math.Sin(2 * Math.PI * x / m_periode3);
+            return y1 + y2 + y3 + m_hoehe;
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -122,35 +121,29 @@ namespace fourier
             double y2;
             double y3;
             bool is_first = true;
-            double periode = 2;
-            double periode2 =4;
-            double periode3 = 3;
             double hoehe = 4;
             double multiplie = m_multiplier;
 
-            double LCM = lcm(periode, periode2, periode3);
+            double LCM = lcm(m_periode1, m_periode2, m_periode3);
 
             for(double i = LCM; i < 350; i += LCM)
             {
-            g.DrawLine(pRed, p2p(i * multiplie,0),p2p(i * multiplie,9));
+                g.DrawLine(pRed, p2p(i * multiplie,0),p2p(i * multiplie,9));
             }
-
 
         
             for (double x = 0; x < 35/multiplie; x += 0.01)
             {
-                y = Math.Sin(2 * Math.PI*x/periode* 2);
-                y2 = Math.Sin(2 * Math.PI * x / periode2 *2);
-                y3 = Math.Sin(2 * Math.PI * x / periode3 * 2);
+                y = gg(x);
                 if (is_first)
                 {
                     is_first = false;
                 }
                 else
                 {
-                    g.DrawLine(p, p2p(multiplie*x_old, multiplie * y_old + hoehe), p2p(multiplie*x,multiplie* (y + y2 + y3) + hoehe));
+                    g.DrawLine(p, p2p(multiplie*x_old, multiplie * y_old), p2p(multiplie*x,multiplie* y));
                     x_old = x;
-                    y_old = y + y2 + y3;
+                    y_old = y;
                 }
             }
 
