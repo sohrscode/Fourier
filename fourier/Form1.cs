@@ -47,16 +47,23 @@ namespace fourier
             g.DrawLine(p, c2p(new Complex(-2, 0)), c2p(new Complex(2, 0)));
             g.DrawLine(p, c2p(new Complex(0, -2)), c2p(new Complex(0, 2)));
 
-            double freq = 1.0 / m_periode3;
+            double freq = 1.0 / 1; //  m_periode3;
 
-            System.Numerics.Complex c1 = new System.Numerics.Complex(0, 0);
+            Complex c1 = new Complex(0, 0);
+            int anzahl = 0;
+            Complex summe = new Complex(0, 0);
             for (double t = 0; t < 50; t += 0.005)
             {
                 Complex c2 = Complex.Exp(-2 * Math.PI * System.Numerics.Complex.ImaginaryOne * freq * t);
-                c2 = c2 * gg(t) / 6; 
+                c2 = c2 * gg(t) / 6;
+                summe += c2;
+                anzahl++;
                 g.DrawLine(p, c2p(c1), c2p(c2));
                 c1 = c2;
             }
+            summe /= anzahl;
+            Point pp = c2p(summe);
+            g.DrawEllipse(p, pp.X-4, pp.Y-4, 8, 8);
         }
         Point p2p(double x, double y)
         {
