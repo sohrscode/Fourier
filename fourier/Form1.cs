@@ -46,6 +46,7 @@ namespace fourier
             Graphics g = panel1.CreateGraphics();
             Pen p = new Pen(Color.Black);
 
+
             g.DrawLine(p, c2p(new Complex(-2, 0)), c2p(new Complex(2, 0)));
             g.DrawLine(p, c2p(new Complex(0, -2)), c2p(new Complex(0, 2)));
 
@@ -61,10 +62,21 @@ namespace fourier
         }
         Point p2p(double x, double y)
         {
-            double xoffset = 60;
+            double xoffset = 65;
             double yoffset = 185;
             double factor = 20;
             return new Point((int)(xoffset + factor * x), (int)(yoffset + factor * -y));
+        }
+
+        private double m_periode = 2;
+        private double m_periode2 = 4;
+        private double m_periode3 = 3;
+        private double f(double x)
+        {
+            y = Math.Sin(2 * Math.PI * x / m_periode * 2);
+            y2 = Math.Sin(2 * Math.PI * x / m_periode2 * 2);
+            y3 = Math.Sin(2 * Math.PI * x / m_periode3 * 2);
+            return y + y2 + y3;
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -73,6 +85,7 @@ namespace fourier
             Graphics g = panel2.CreateGraphics();
             Brush b = new SolidBrush(Color.Black);
             Pen p = new Pen(Color.Black);
+            Pen pRed = new Pen(Color.Red);
 
             FontFamily fontFamily = new FontFamily("Arial");
             Font f = new Font(
@@ -81,8 +94,8 @@ namespace fourier
                FontStyle.Regular,
                GraphicsUnit.Pixel);
 
-            g.DrawLine(p, p2p(-35, 0), p2p(35, 0));   // x achse
-            g.DrawLine(p, p2p(0, -9), p2p(0, 9));    // y achse
+            g.DrawLine(p, p2p(-1, 0), p2p(35, 0));   // x achse
+            g.DrawLine(p, p2p(0, -1), p2p(0, 9));    // y achse
 
             g.DrawLine(p, p2p(35, 0), p2p(34.5, -0.5));  // x Pfeil
             g.DrawLine(p, p2p(35, 0), p2p(34.5, 0.5));
@@ -109,11 +122,21 @@ namespace fourier
             double y2;
             double y3;
             bool is_first = true;
-            double periode = 1;
-            double periode2 = 2;
+            double periode = 2;
+            double periode2 =4;
             double periode3 = 3;
             double hoehe = 4;
             double multiplie = m_multiplier;
+
+            double LCM = lcm(periode, periode2, periode3);
+
+            for(double i = LCM; i < 350; i += LCM)
+            {
+            g.DrawLine(pRed, p2p(i * multiplie,0),p2p(i * multiplie,9));
+            }
+
+
+        
             for (double x = 0; x < 35/multiplie; x += 0.01)
             {
                 y = Math.Sin(2 * Math.PI*x/periode* 2);
@@ -215,7 +238,7 @@ namespace fourier
 
         private void label2_Click(object sender, EventArgs e)
         {
-            // label2 =
+
         }
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)
@@ -229,15 +252,51 @@ namespace fourier
         private void trackBar1_MouseCaptureChanged(object sender, EventArgs e)
         {
             double v = trackBar1.Value;
-            m_multiplier = v/10;
+            m_multiplier = v;
             if (m_multiplier == 0)
             {
-                m_multiplier = 0.1;
-            }else 
-          //  panel1.Refresh();
+                m_multiplier = 0.01;
+            }else if(m_multiplier < 50)
+            {
+                m_multiplier = m_multiplier/ 50;
+            }else if(m_multiplier > 50)
+            {
+                m_multiplier = (m_multiplier - 45) / 5;
+            }else if(m_multiplier == 50)
+            {
+                m_multiplier = 1;
+            }
+
+            string test = m_multiplier.ToString();
+            label2.Text = test;
+
             panel2.Refresh();
         }
         private double m_multiplier = 1;
-        
+
+        private void label2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        static double gcf(double a, double b)
+        {
+            while (b != 0)
+            {
+                double temp = b;
+                b = a % b;
+                a = temp;
+            }
+            return a;
+        }
+
+        static double lcm(double a, double b)
+        {
+            return (a / gcf(a, b)) * b;
+        }
+        static double lcm(double a, double b, double c)
+        {
+            return lcm(lcm(a, b), c);
+        }
     }
 }
