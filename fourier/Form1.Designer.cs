@@ -34,6 +34,7 @@
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.label2 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -97,11 +98,22 @@
             this.panel3.TabIndex = 5;
             this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(733, 14);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Refresh";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1430, 838);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.trackBar1);
@@ -125,6 +137,7 @@
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Button button1;
     }
 }
 

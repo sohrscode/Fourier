@@ -76,7 +76,7 @@ namespace fourier
 
         private double m_periode1 = 2;
         private double m_periode2 = 3;
-        private double m_periode3 = 4;
+        private double m_periode3 = 6;
         private double m_hoehe = 3;
         private double gg(double x)
         {
@@ -336,6 +336,34 @@ namespace fourier
                 g.DrawLine(p, p2p2(0.1, -ii), p2p2(-0.1, -ii));
             }
 
+            double s_old = 0;
+            double y_old = 0;
+
+            for (double s = 0.01; s < 10.5; s += 0.01)
+            {
+                double freq = 1 / s;
+                Complex c1 = new Complex(0, 0);
+                int anzahl = 0;
+                Complex summe = new Complex(0, 0);
+                for (double t = 0; t < 50; t += 0.005)
+                {
+                    Complex c2 = Complex.Exp(-2 * Math.PI * System.Numerics.Complex.ImaginaryOne * freq * t);
+                    c2 = c2 * gg(t);
+                    summe += c2;
+                    anzahl++;
+                }
+                summe /= anzahl;
+                double y = Complex.Abs(summe) * 3;
+
+                g.DrawLine(p, p2p2(s, y), p2p2(s_old, y_old));
+                y_old = y;
+                s_old = s;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Refresh();
         }
     }
 }
