@@ -33,6 +33,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.label2 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -88,11 +89,20 @@
             this.label2.Click += new System.EventHandler(this.label2_Click);
             this.label2.Paint += new System.Windows.Forms.PaintEventHandler(this.label2_Paint);
             // 
+            // panel3
+            // 
+            this.panel3.Location = new System.Drawing.Point(585, 319);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(794, 436);
+            this.panel3.TabIndex = 5;
+            this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(843, 838);
+            this.ClientSize = new System.Drawing.Size(1430, 838);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.panel2);
@@ -114,6 +124,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Panel panel3;
     }
 }
 

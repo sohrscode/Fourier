@@ -42,12 +42,13 @@ namespace fourier
         {
             Graphics g = panel1.CreateGraphics();
             Pen p = new Pen(Color.Black);
+            Pen pRed = new Pen(Color.Red);
 
 
             g.DrawLine(p, c2p(new Complex(-2, 0)), c2p(new Complex(2, 0)));
             g.DrawLine(p, c2p(new Complex(0, -2)), c2p(new Complex(0, 2)));
 
-            double freq = 1.0 / 1; //  m_periode3;
+            double freq = 1.0 /3; //  m_periode3;
 
             Complex c1 = new Complex(0, 0);
             int anzahl = 0;
@@ -63,7 +64,7 @@ namespace fourier
             }
             summe /= anzahl;
             Point pp = c2p(summe);
-            g.DrawEllipse(p, pp.X-4, pp.Y-4, 8, 8);
+            g.DrawEllipse(pRed, pp.X-4, pp.Y-4, 8, 8);
         }
         Point p2p(double x, double y)
         {
@@ -74,8 +75,8 @@ namespace fourier
         }
 
         private double m_periode1 = 2;
-        private double m_periode2 = 4;
-        private double m_periode3 = 3;
+        private double m_periode2 = 3;
+        private double m_periode3 = 4;
         private double m_hoehe = 3;
         private double gg(double x)
         {
@@ -297,6 +298,44 @@ namespace fourier
         static double lcm(double a, double b, double c)
         {
             return lcm(lcm(a, b), c);
+        }
+
+        Point p2p2(double x, double y)
+        {
+            double xoffset = 65;
+            double yoffset = 185;
+            double factor = 70;
+            return new Point((int)(xoffset + factor * x), (int)(yoffset + factor * -y));
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+            Graphics g = panel3.CreateGraphics();
+            Brush b = new SolidBrush(Color.Black);
+            Pen p = new Pen(Color.Black);
+
+            g.DrawLine(p, p2p2(-1, 0), p2p2(10.5, 0));   // x achse
+            g.DrawLine(p, p2p2(0, -2.5), p2p2(0, 2.5));    // y achse
+
+
+            g.DrawLine(p, p2p2(0, 9), p2p2(0.5, 8.5));   // y Pfeil
+            g.DrawLine(p, p2p2(0, 9), p2p2(-0.5, 8.5));
+
+            g.DrawLine(p, p2p2(-0.15, -0.15), p2p2(0.15, 0.15));   // 0 linie
+
+
+            for (double i = 0; i < 11; i += 1)
+            {
+                g.DrawLine(p, p2p2(i, -0.1), p2p2(i, 0.1));
+            }
+
+            for (double ii = 0; ii < 3; ii += 1)
+            {
+                g.DrawLine(p, p2p2(0.1, ii), p2p2(-0.1, ii));
+                g.DrawLine(p, p2p2(0.1, -ii), p2p2(-0.1, -ii));
+            }
+
         }
     }
 }
